@@ -33,10 +33,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 1500;
+  Timer _timer;
 
   void _startTimer() {
-    setState(() {
-      _counter--;
+    _counter = 1500;
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
     });
   }
 
@@ -75,13 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.red[600],
+              primary: Colors.green[600],
             ),
             onPressed: _startTimer,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'STOP',
+                'START',
                 style: TextStyle(fontSize: 36),
               ),
             ),
